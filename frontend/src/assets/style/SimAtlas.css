@@ -1,0 +1,80 @@
+.leaf-let-div {
+  height: 100%;
+  width: 100%;
+}
+
+.item-box {
+  z-index: 500;
+}
+
+.top-mid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 360px;
+  height: 40px;
+}
+
+.search-container {
+  display: flex;
+}
+
+.custom-react-search {
+  flex-grow: 3;
+}
+
+.left-bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.right-bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 1rem;
+}
+
+.faq-link {
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* For Util info section */
+li {
+  list-style-type: none;
+}
+
+.overlay-info {
+  padding-left: 0;
+}
+
+.overlay-div {
+  font-size: 1.3rem;
+}
+
+.info-legend {
+  text-align: left;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+}
+
+.info-legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+}
+
+.oq-seistech-logo {
+  display: block;
+  height: 130px;
+  width: 100%;
+  margin-left: 10px;
+}
