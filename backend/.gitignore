@@ -1,0 +1,10 @@
+*.idea
+**/*srf_plots*
+**/plot_srf_pngs.py
+**/make_videos.py
+__pycache__
+.env
+simatlas.db
+/data/pga
+/data/pgv
+/data/v18p6_rerun_srf_plots
