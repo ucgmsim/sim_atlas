@@ -43,6 +43,7 @@ Run `database.py` and it will create a sqlite DB with data from `data/GeoNet_CMT
     - auth_provider_x509_cert_url
     - client_x509_cert_url
     - pga_pgv_images_path - Only variable for backend itself
+  - `pip install -r requirements.txt` - to install any necessary packages
   - `python app.py` (Development server)
 
 ## Notes about Data
