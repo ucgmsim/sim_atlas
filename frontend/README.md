@@ -5,6 +5,7 @@
 - [Naming](#naming)
 - [Requirements](#requirements)
 - [Running locally](#running-locally)
+- [Deployment](#deployment)
 
 ## Naming
 
@@ -28,7 +29,7 @@
 
 ## Running locally
 
-Open a terminal to do the following steps
+Open a terminal to do the following steps:
 
 1. Change the directory to frontend
 
@@ -47,3 +48,19 @@ npm install
 ```shell
 npm run start
 ```
+
+## Deployment
+
+1. Install packages
+```shell
+# In case there are some new packages to install
+npm install
+```
+
+2. Build first
+```shell
+# To include the .env file while building
+npm run build:dev
+```
+
+3. Copy the `/build` directory to `/var/www/sim_atlas`
