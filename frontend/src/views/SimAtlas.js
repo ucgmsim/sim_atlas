@@ -118,7 +118,6 @@ const SimAtlas = () => {
     Probability: probRef,
     Magnitude: magRef,
   };
-  const faqPath = process.env.REACT_APP_BASE_NAME + "/faq";
 
   // Fly to the searched fault
   const flyToFault = (targetFault) => {
@@ -225,7 +224,7 @@ const SimAtlas = () => {
       <div className="item-box left-bottom">
         <img src={logo} alt="logo" className="oq-seistech-logo" />
         <a
-          href={faqPath}
+          href={process.env.REACT_APP_BASE_NAME + "/faq"}
           target="_blank"
           rel="noopener noreferrer"
           className="faq-link"
