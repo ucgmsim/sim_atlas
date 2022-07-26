@@ -94,6 +94,8 @@ const HistoricEvents = ({ historicTraces, visibility }) => {
     const ciLayer = customLayer;
 
     if (visibility) {
+      // In case users click the adding historical data before the data is ready
+      if (markers.length == 0) return;
       ciLayer.addLayers(markers);
     } else {
       ciLayer.clearLayers();
