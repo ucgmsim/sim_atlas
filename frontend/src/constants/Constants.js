@@ -1,7 +1,7 @@
 import L from "leaflet";
 
 export const API_URL = process.env.REACT_APP_API_URL;
-export const API_FAULTS_GET_ENDPOINT = "/api/faults";
+export const API_FAULTS_GET_ENDPOINT = "/faults";
 
 export const CENTER = [-41.2728, 173.2995];
 export const fopa = 0.1;
