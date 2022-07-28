@@ -11,7 +11,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-@app.route("/api/faults", methods=["GET"])
+@app.route("/faults", methods=["GET"])
 def get_faults():
     from models import Fault, HistoricEvent
 
