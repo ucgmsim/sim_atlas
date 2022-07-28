@@ -5,6 +5,6 @@
 __pycache__
 .env
 simatlas.db
-/data/pga
-/data/pgv
-/data/v18p6_rerun_srf_plots
+/static/images/pga
+/static/images/pgv
+/static/images/v18p6_rerun_srf_plots
