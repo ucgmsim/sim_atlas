@@ -85,7 +85,7 @@ const Faults = ({ faultsTraces, faultsType }) => {
                   <a
                     href={
                       process.env.REACT_APP_STATIC_DATA +
-                      "/data/pgv/" +
+                      "/pgv/" +
                       fault["name"] +
                       "_PGV.png"
                     }
@@ -102,7 +102,7 @@ const Faults = ({ faultsTraces, faultsType }) => {
                   <a
                     href={
                       process.env.REACT_APP_STATIC_DATA +
-                      "/data/pga/" +
+                      "/pga/" +
                       fault["name"] +
                       "_PGA.png"
                     }
