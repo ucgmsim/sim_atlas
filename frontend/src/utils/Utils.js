@@ -30,25 +30,31 @@ export const customOnClick = (e, fault, map, opa, fopa, weight) => {
   });
 
   try {
-    /*Try to get an srf image and add extra image overlay*/
+    // Try to get an srf image and add extra image overlay
     let imageURL = `${process.env.REACT_APP_SRF_IMAGE_PATH}/${fault.name}.png`;
-    let imageBounds = L.latLngBounds(fault.planes);
-    let imageLayer = L.imageOverlay(imageURL, imageBounds);
-
-    if (imageOverlayObj[fault.name] == null) {
-      map.addLayer(imageLayer);
-      imageOverlayObj[fault.name] = imageLayer;
-    }
+    // Check if server has an image
+    fetch(imageURL).then((response) => {
+      if (response.status == 200) {
+        let imageBounds = L.latLngBounds(fault.planes);
+        let imageLayer = L.imageOverlay(imageURL, imageBounds);
+        
+        // Add a layer only if image is avilable
+        if (imageOverlayObj[fault.name] == null) {
+          map.addLayer(imageLayer);
+          imageOverlayObj[fault.name] = imageLayer;
+        }
+      }
+    });
   } catch {
     // Most likely the image does not exist
     console.error("Image does not exist.");
-  }
-
-  //Remove image overlays elsewhere
-  for (let key in imageOverlayObj) {
-    if (key !== fault.name && imageOverlayObj[key] !== null) {
-      map.removeLayer(imageOverlayObj[key]);
-      imageOverlayObj[key] = null;
+  } finally {
+    //Remove image overlays elsewhere
+    for (let key in imageOverlayObj) {
+      if (key !== fault.name && imageOverlayObj[key] !== null) {
+        map.removeLayer(imageOverlayObj[key]);
+        imageOverlayObj[key] = null;
+      }
     }
   }
 };
