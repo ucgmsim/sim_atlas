@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef, memo } from "react";
 
 import L from "leaflet";
 import {
@@ -9,6 +9,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { useLeafletContext } from "@react-leaflet/core";
+import { useSearchParams } from "react-router-dom";
 
 import { GlobalContext } from "context";
 import * as CONSTANTS from "constants/Constants";
@@ -21,6 +22,7 @@ import logo from "assets/images/qc_st_logo.png";
 
 const MapEventsHandler = () => {
   const {
+    totalRenderedFaults,
     setSelectedBaseLayer,
     setBelowFiveMagCheckbox,
     setBetwFiveSixMagCheckbox,
@@ -33,10 +35,14 @@ const MapEventsHandler = () => {
   useEffect(() => {
     if (leafletContext.map) {
       CONSTANTS.tectonicUtilInfo.addTo(leafletContext.map);
+      console.log(leafletContext.map)
     }
   }, [leafletContext]);
 
   const map = useMapEvents({
+    tileload: (e) => {
+      console.log("WHTA IS THIS?")
+    },
     baselayerchange: (e) => {
       if (e.name === "Tectonic") {
         setSelectedBaseLayer("Tectonic");
@@ -113,14 +119,43 @@ const SimAtlas = () => {
   let magRef = useRef();
 
   const [map, setMap] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isFromOutside, setIsFromOutside] = useState(
+    searchParams.get("query") ? true : false
+  );
   const refs = {
     Tectonic: tectTypeRef,
     Probability: probRef,
     Magnitude: magRef,
   };
 
+  useEffect(() => {
+    const searchedRupture = searchParams.get("query");
+    console.log(`You visit the page with ${searchedRupture}`);
+    console.log(isFromOutside)
+    if (isFromOutside){
+      setTimeout(() => {
+        console.log(searchedRupture);
+        flyToFault(searchedRupture, isFromOutside);
+      }, 5000);
+    }
+    // while (isFromOutside) {
+      // setTimeout(() => {
+      //   console.log(searchedRupture);
+      //   flyToFault(searchedRupture, isFromOutside);
+      // }, 5000);
+    // }
+  }, [searchParams, map, isFromOutside]);
+
+  // useEffect(() => {
+  //   if (map){
+  //     // console.log(map.hasLayer("Probability"))
+  //     console.log(map)
+  //   }
+  // }, [map])
+
   // Fly to the searched fault
-  const flyToFault = (targetFault) => {
+  const flyToFault = (targetFault, fromOutside = false) => {
     if (map) {
       map.eachLayer((layer) => {
         if (layer.options.id === targetFault) {
@@ -140,6 +175,9 @@ const SimAtlas = () => {
           setTimeout(() => {
             layer.setStyle({ weight: originalWeight });
           }, 3000);
+          if (fromOutside) {
+            setIsFromOutside(false);
+          }
         }
       });
     }
@@ -218,7 +256,10 @@ const SimAtlas = () => {
           className="custom-react-search"
           placeholder={"Search fault..."}
           options={selectFltOptions}
-          onChange={(value) => flyToFault(value.value)}
+          onChange={(value) => {
+            flyToFault(value.value);
+            setSearchParams({ query: value.value });
+          }}
         />
       </div>
       <div className="item-box left-bottom">
@@ -236,4 +277,4 @@ const SimAtlas = () => {
   );
 };
 
-export default SimAtlas;
+export default memo(SimAtlas);

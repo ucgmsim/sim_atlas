@@ -9,6 +9,7 @@ export const Context = createContext({});
 export const Provider = (props) => {
   const { children } = props;
 
+  const [totalRenderedFaults, setTotalRenderedFaults] = useState(0);
   const [selectedBaseLayer, setSelectedBaseLayer] = useState("Tectonic");
 
   const [selectFltOptions, setSelectFltOptions] = useState([]);
@@ -87,6 +88,8 @@ export const Provider = (props) => {
   }, []);
 
   const globalContext = {
+    totalRenderedFaults,
+    setTotalRenderedFaults,
     selectedBaseLayer,
     setSelectedBaseLayer,
     selectFltOptions,
