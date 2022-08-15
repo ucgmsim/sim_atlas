@@ -38,9 +38,6 @@ const MapEventsHandler = () => {
   }, [leafletContext]);
 
   const map = useMapEvents({
-    tileload: (e) => {
-      console.log("WHTA IS THIS?");
-    },
     baselayerchange: (e) => {
       if (e.name === "Tectonic") {
         setSelectedBaseLayer("Tectonic");
