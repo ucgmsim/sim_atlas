@@ -22,7 +22,6 @@ import logo from "assets/images/qc_st_logo.png";
 
 const MapEventsHandler = () => {
   const {
-    totalRenderedFaults,
     setSelectedBaseLayer,
     setBelowFiveMagCheckbox,
     setBetwFiveSixMagCheckbox,
@@ -35,13 +34,12 @@ const MapEventsHandler = () => {
   useEffect(() => {
     if (leafletContext.map) {
       CONSTANTS.tectonicUtilInfo.addTo(leafletContext.map);
-      console.log(leafletContext.map)
     }
   }, [leafletContext]);
 
   const map = useMapEvents({
     tileload: (e) => {
-      console.log("WHTA IS THIS?")
+      console.log("WHTA IS THIS?");
     },
     baselayerchange: (e) => {
       if (e.name === "Tectonic") {
@@ -123,36 +121,26 @@ const SimAtlas = () => {
   const [isFromOutside, setIsFromOutside] = useState(
     searchParams.get("query") ? true : false
   );
-  const refs = {
+  const [refs, setRefs] = useState({
     Tectonic: tectTypeRef,
     Probability: probRef,
     Magnitude: magRef,
-  };
+  });
 
+  /* 
+  I could not find a better way of triggering flyToFault function
+  The leaflet itself doesn't have a feature to see if rendering is finished
+  Hence, it is currently hard-coded. Ideally, we want to trigger
+  flyToFault function after every child component gets rendered.
+  */
   useEffect(() => {
     const searchedRupture = searchParams.get("query");
-    console.log(`You visit the page with ${searchedRupture}`);
-    console.log(isFromOutside)
-    if (isFromOutside){
+    if (isFromOutside && searchedRupture) {
       setTimeout(() => {
-        console.log(searchedRupture);
         flyToFault(searchedRupture, isFromOutside);
-      }, 5000);
+      }, 2300);
     }
-    // while (isFromOutside) {
-      // setTimeout(() => {
-      //   console.log(searchedRupture);
-      //   flyToFault(searchedRupture, isFromOutside);
-      // }, 5000);
-    // }
   }, [searchParams, map, isFromOutside]);
-
-  // useEffect(() => {
-  //   if (map){
-  //     // console.log(map.hasLayer("Probability"))
-  //     console.log(map)
-  //   }
-  // }, [map])
 
   // Fly to the searched fault
   const flyToFault = (targetFault, fromOutside = false) => {
