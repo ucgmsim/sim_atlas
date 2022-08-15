@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef, memo } from "react";
 
 import L from "leaflet";
 import {
@@ -9,6 +9,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { useLeafletContext } from "@react-leaflet/core";
+import { useSearchParams } from "react-router-dom";
 
 import { GlobalContext } from "context";
 import * as CONSTANTS from "constants/Constants";
@@ -113,14 +114,33 @@ const SimAtlas = () => {
   let magRef = useRef();
 
   const [map, setMap] = useState(null);
-  const refs = {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isFromOutside, setIsFromOutside] = useState(
+    searchParams.get("query") ? true : false
+  );
+  const [refs, setRefs] = useState({
     Tectonic: tectTypeRef,
     Probability: probRef,
     Magnitude: magRef,
-  };
+  });
+
+  /* 
+  I could not find a better way of triggering flyToFault function
+  The leaflet itself doesn't have a feature to see if rendering is finished
+  Hence, it is currently hard-coded. Ideally, we want to trigger
+  flyToFault function after every child component gets rendered.
+  */
+  useEffect(() => {
+    const searchedRupture = searchParams.get("query");
+    if (isFromOutside && searchedRupture) {
+      setTimeout(() => {
+        flyToFault(searchedRupture, isFromOutside);
+      }, 2300);
+    }
+  }, [searchParams, map, isFromOutside]);
 
   // Fly to the searched fault
-  const flyToFault = (targetFault) => {
+  const flyToFault = (targetFault, fromOutside = false) => {
     if (map) {
       map.eachLayer((layer) => {
         if (layer.options.id === targetFault) {
@@ -140,6 +160,9 @@ const SimAtlas = () => {
           setTimeout(() => {
             layer.setStyle({ weight: originalWeight });
           }, 3000);
+          if (fromOutside) {
+            setIsFromOutside(false);
+          }
         }
       });
     }
@@ -218,7 +241,10 @@ const SimAtlas = () => {
           className="custom-react-search"
           placeholder={"Search fault..."}
           options={selectFltOptions}
-          onChange={(value) => flyToFault(value.value)}
+          onChange={(value) => {
+            flyToFault(value.value);
+            setSearchParams({ query: value.value });
+          }}
         />
       </div>
       <div className="item-box left-bottom">
@@ -236,4 +262,4 @@ const SimAtlas = () => {
   );
 };
 
-export default SimAtlas;
+export default memo(SimAtlas);
