@@ -24,7 +24,7 @@ function DisclaimerPopup() {
       <div className="popup">
         <div className="popup-content">
           <h2>Disclaimer</h2>
-          <p>The ground motion simulation animation considers only one potential rupture out of many possibilities that could occur on the fault.<br /> The animation is intended to be used only for general science commmunicatiohn, not for rigorous quantitative analysis.</p>
+          <p>The ground motion simulation animation considers only one potential rupture out of many possibilities that could occur on the fault.<br /> The animation is intended to be used only for general science commmunicatiohn, not for rigorous quantitative analysis.<br /> The website owner and the authors of the paper are not responsible for any errors, omissions, or damages arising from the use of the information on this website. </p>
           <button onClick={handleClose}>OK</button>
         </div>
       </div>
